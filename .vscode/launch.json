@@ -10,10 +10,23 @@
       "type": "dart"
     },
     {
-      "name": "iPhone 15 Pro",
+      "name": "iPhone15Pro",
       "request": "launch",
       "type": "dart",
       "deviceId": "B8F9F7A1-FC55-44B3-96EE-A65B69614E1C"
+    },
+    {
+      "name": "Chrome",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["-d", "chrome"]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "All Deivces",
+      "configurations": ["iPhone15Pro", "Chrome"]
     }
   ]
 }

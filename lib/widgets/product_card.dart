@@ -16,9 +16,13 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final screenSize = MediaQuery.of(context).size;
+    // print(screenSize);
+
     return Container(
-      margin: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(4),
       padding: const EdgeInsets.all(16),
+      height: 230,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(20),
@@ -40,16 +44,13 @@ class ProductCard extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Center(
-            child: Image.asset(
-              image,
-              height: 175,
+          Expanded(
+            child: FractionallySizedBox(
+              widthFactor: 1,
+              heightFactor: 1,
+              child: Image.asset(image),
             ),
-          ),
-          // Image(
-          //   image: AssetImage(image),
-          //   height: 175,
-          // )
+          )
         ],
       ),
     );
