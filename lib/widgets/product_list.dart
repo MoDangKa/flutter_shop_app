@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop_app/utils/global_variables.dart';
 import 'package:flutter_shop_app/widgets/product_frame.dart';
+import 'package:flutter_debouncer/flutter_debouncer.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -14,6 +15,21 @@ class _ProductListState extends State<ProductList> {
   late String selectedFilter;
   int currentPage = 0;
 
+  String debouncedText = '';
+  final Debouncer _debouncer = Debouncer();
+
+  void _handleTextFieldChange(String value) {
+    const duration = Duration(milliseconds: 500);
+    _debouncer.debounce(
+      duration: duration,
+      onDebounce: () {
+        setState(() {
+          debouncedText = value;
+        });
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +38,10 @@ class _ProductListState extends State<ProductList> {
 
   List<ProductFrame> _buildGridList() {
     final productList = products
+        .where((item) {
+          final product = item['title'] as String;
+          return product.toLowerCase().contains(debouncedText.toLowerCase());
+        })
         .where((item) =>
             selectedFilter == 'All' || item['company'] == selectedFilter)
         .toList();
@@ -57,9 +77,10 @@ class _ProductListState extends State<ProductList> {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  onChanged: _handleTextFieldChange,
+                  decoration: const InputDecoration(
                     hintText: 'Search',
                     prefixIcon: Icon(Icons.search),
                     border: border,
